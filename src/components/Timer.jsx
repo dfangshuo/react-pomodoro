@@ -26,6 +26,10 @@ class Timer extends React.Component {
 
     this.state = {
       // TODO 1: initialize state
+      mode: props.mode, // string
+      time: MODES_TIMES.WORK, // int ; it's not THIS.MODE_TIMES because MODE_TIMES isn't in the class Timer
+      isPlaying: props.autoPlays //bool
+
     };
   }
 
