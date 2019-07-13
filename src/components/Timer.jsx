@@ -107,6 +107,7 @@ class Timer extends React.Component {
 
   completeSession() {
     // TODO 7: call onComplete here
+    this.props.onSessionComplete();
   }
 
 

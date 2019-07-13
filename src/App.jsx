@@ -14,7 +14,9 @@ class App extends React.Component {
   }
 
   increaseSessionsCompleted() {
-    // TODO 4.
+    this.setState({
+      sessionsCompleted: this.state.sessionsCompleted + 1
+    })
   }
 
   render() {
@@ -22,8 +24,8 @@ class App extends React.Component {
       <div className="container">
         <h1 className="header">Today</h1>
         {/* TODO 4. */}
-        <Timer mode="WORK" autoPlays onSessionComplete={()=>console.log('complete!')} />
-        {/*<SessionsCompletedCounter sessionsCompleted={} /> */}
+        <Timer mode="WORK" autoPlays onSessionComplete={this.increaseSessionsCompleted} />
+        <SessionsCompletedCounter sessionsCompleted={this.state.sessionsCompleted} />
       </div>
     );
   }
