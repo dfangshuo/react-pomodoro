@@ -4,8 +4,8 @@ import PausePlayButton from './PausePlayButton';
 import ResetButton from './ResetButton';
 import '../styles/timer.css';
 
-const WORK_TIME = 2;
-const BREAK_TIME = 1;
+const WORK_TIME = 4;
+const BREAK_TIME = 2;
 
 const MODES_TIMES = {
   WORK: WORK_TIME,
@@ -94,13 +94,15 @@ class Timer extends React.Component {
 
   toggleIsPlaying() {
     // TODO 5: Use the previous state to write this more succintly
-    this.setState({
-      isPlaying: !this.state.isPlaying
-    })
+    this.setState((prevState) => {
+      return { isPlaying: !prevState.isPlaying}
+    });
   }
 
   reset() {
     // TODO 4: call stop and set a new timer
+    this.stop();
+    this.setTimer('WORK', MODES_TIMES.WORK);
   }
 
   completeSession() {
@@ -111,14 +113,13 @@ class Timer extends React.Component {
   render() {
     const { mode, time, isPlaying } = this.state;
     // TODO 6: make sure we are showing the right class depending on the mode
-    const timerClassName = 'timer-container timer-work';
+    const timerClassName = this.state.mode === 'WORK' ? 'timer-container timer-work' : 'timer-container timer-break';
     return (
       <div className={timerClassName}>
         <div>
           <ResetButton onClick={this.reset} />
         </div>
-        {/* TODO 6: change time to be the newly formatted time */}
-        <div>{time}</div>
+        <div>{formatSecondsToMinutesAndSeconds(time)}</div>
         <div>
           <PausePlayButton isPlaying={isPlaying} onClick={this.toggleIsPlaying} />
         </div>
