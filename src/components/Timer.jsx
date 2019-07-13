@@ -36,6 +36,7 @@ class Timer extends React.Component {
   componentDidMount() {
     const { mode, time } = this.state;
     // TODO 2: set the timer
+    this.setTimer(mode, time);
   }
 
   componentWillUnmount() {
@@ -44,32 +45,47 @@ class Timer extends React.Component {
 
   setTimer(mode, time) {
     // TODO 2.1: set state
+    this.setState({
+      mode: mode,
+      time: time,
+    });
     // TODO 2.1: initialize timer
+    this.timerID = setInterval(this.tick, TIME_STEP);
   }
 
   stop() {
     // TODO 3: set isPlaying to false
+    this.setState({
+      isPlaying: false
+    })
     // TODO 3: clear timer
+    clearInterval(this.timerID);
   }
 
   tick() {
     const { mode, isPlaying, time } = this.state;
 
     if (isPlaying) {
-      this.setState({
+      this.setState((prevState) => {
         /* TODO 2.2: decrease time's value by one */
+        // Return an object in this function that you want the new state to be.
+        return { time: prevState.time - 1 };
       },
       () => {
         if (time === 0) {
           // TODO 2.2: stop timer
+          this.stop();
 
           if (mode === 'WORK') {
             //TTODO 2.2: set a new timer in BREAK mode
+            this.setTimer('BREAK', MODES_TIMES.BREAK);
           }
 
           if (mode === 'BREAK') {
             // TODO 2.2: call complete session
+            this.completeSession();
             // TODO 2.2: set a new timer in WORK mode
+            this.setTimer('WORK', MODES_TIMES.WORK);
           }
         }
       });
@@ -78,6 +94,9 @@ class Timer extends React.Component {
 
   toggleIsPlaying() {
     // TODO 5: Use the previous state to write this more succintly
+    this.setState({
+      isPlaying: !this.state.isPlaying
+    })
   }
 
   reset() {
